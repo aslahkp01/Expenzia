@@ -71,6 +71,9 @@ class ExpenseController extends ChangeNotifier {
   Future<bool> clear() =>
       _write(database.clear, 'Could not clear expenses. Please try again.');
 
+  Future<bool> recordPayment(Future<List<Expense>> Function() action) =>
+      _write(action, 'Could not record payment. Please refresh and try again.');
+
   @override
   void dispose() {
     _disposed = true;

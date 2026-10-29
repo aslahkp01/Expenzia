@@ -1,9 +1,10 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../utils/amount_parser.dart';
+import 'credit_schema.dart';
 
 class ExpenseSchema {
-  static const version = 1;
+  static const version = 3;
   static const table = 'expenses';
 
   static Future<void> create(Database db, int version) async {
@@ -17,7 +18,8 @@ class ExpenseSchema {
         ),
         category TEXT NOT NULL CHECK(length(trim(category)) > 0),
         date TEXT NOT NULL,
-        description TEXT NOT NULL DEFAULT ''
+        description TEXT NOT NULL DEFAULT '',
+        type TEXT NOT NULL DEFAULT 'expense'
       )
     ''');
     await db.execute('''
@@ -26,5 +28,19 @@ class ExpenseSchema {
     await db.execute('''
       CREATE TABLE settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)
     ''');
+    await CreditSchema.create(db);
+  }
+
+  static Future<void> upgrade(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    if (oldVersion < 2) await CreditSchema.create(db);
+    if (oldVersion < 3) {
+      await db.execute(
+        "ALTER TABLE $table ADD COLUMN type TEXT NOT NULL DEFAULT 'expense'",
+      );
+    }
   }
 }

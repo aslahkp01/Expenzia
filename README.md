@@ -36,7 +36,11 @@ dart run sqflite_common_ffi_web:setup --force
 ## Features
 
 - Splash, onboarding, dashboard, transaction history, shared add/edit form,
-  Credit preview, and Profile screens.
+  functional Credit payment plans, and Profile screens.
+- Save, edit, and delete upcoming payments with amounts, due dates, and
+  one-time/monthly/yearly schedules. Saving a plan does not add an expense.
+- Mark paid adds one expense with today's payment date. One-time plans become
+  Paid; recurring plans advance one scheduled cycle while retaining the amount.
 - SQLite expense CRUD, confirmation before deletion, and persistent profile names.
 - Required title, category, amount, and date; optional description.
 - Integer paise throughout storage and calculations, displayed as Indian rupees.
@@ -44,7 +48,8 @@ dart run sqflite_common_ffi_web:setup --force
 - Totals and history refresh through ChangeNotifier after successful writes.
 - Loading, empty, retry, and database-error states.
 - Scrollable forms, keyboard handling, safe areas, and responsive mobile layouts.
-- Clear Storage deletes all expense records after confirmation, retaining the name.
+- Clear Storage deletes all expense records after confirmation, retaining the
+  profile and payment plans. Deleting a plan retains previously recorded expenses.
 - Every application and test Dart file is at most 100 lines after Dart formatting.
 
 ## Dependencies
@@ -62,7 +67,7 @@ dart run sqflite_common_ffi_web:setup --force
 lib/
   main.dart, app.dart       Application startup and resource ownership
   models/                  Immutable expense records and dashboard summaries
-  data/                    Schema version 1, SQLite CRUD, profile persistence
+  data/                    Versioned SQLite CRUD, payment transactions, profiles
   controllers/             Expense state, form state, profile state
   screens/                 Intro flow, navigation shell, and application screens
   theme/                   Shared colours, spacing, typography, and input styling
@@ -86,17 +91,22 @@ back the mutation. User-provided query values use bound parameters.
 - Daily Average is current-month spending through today divided by elapsed calendar
   days in the month, rounded to the nearest paise. Weekly means Monday through today.
   Total Expenses includes all saved records, including future-dated expenses.
-- Credit is an explicitly labelled, disabled preview. The reference omits an amount
-  input and does not define repayments, recurrence, or effects on expense totals.
-  No Credit records or financial behaviour are fabricated.
+- Credit represents upcoming outgoing payments, not loans or incoming money.
+  The added amount field completes the reference design. Payments are manually
+  confirmed; there are no automatic charges or notifications. Overdue plans advance
+  one cycle per recorded payment rather than skipping unpaid cycles. Monthly plans
+  retain their original day across short months (Jan 31 -> Feb 28 -> Mar 31), and
+  yearly leap-day plans return to Feb 29 in leap years. Editing the due date or plan
+  starts a new schedule and clears the completed status of a one-time plan.
 - Profile name and profile photo editing persist locally in SQLite.
 - The onboarding illustration is a temporary crop of the illustration region in
   the supplied reference. It is not a whole-screen screenshot used as UI. Replace
   `assets/images/onboarding.png` with the original high-resolution Figma export for
   final delivery. Fonts, colours, and dimensions are estimates from screenshots.
 - Onboarding currently appears on every launch. No onboarding preference is stored.
-- Schema version 1 creates expenses, an ordering index, and profile settings.
-  A future schema change must increment the version and implement an upgrade migration.
+- Schema version 2 adds payment plans. The version 1 upgrade preserves expenses
+  and profile settings. Recording a payment and advancing its plan are atomic;
+  concurrent submissions against the same cycle are rejected.
 
 ## Verification
 
@@ -138,6 +148,6 @@ has not been verified on this Windows machine.
 | --- | --- |
 | ![History](docs/screenshots/05-history.png) | ![Edit](docs/screenshots/06-edit-expense.png) |
 
-| Credit preview | Profile |
+| Credit | Profile |
 | --- | --- |
 | ![Credit](docs/screenshots/07-credit.png) | ![Profile](docs/screenshots/08-profile.png) |

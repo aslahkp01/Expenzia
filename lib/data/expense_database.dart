@@ -22,6 +22,7 @@ class ExpenseDatabase {
       options: OpenDatabaseOptions(
         version: ExpenseSchema.version,
         onCreate: ExpenseSchema.create,
+        onUpgrade: ExpenseSchema.upgrade,
       ),
     );
   }

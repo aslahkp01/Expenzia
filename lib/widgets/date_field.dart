@@ -10,10 +10,12 @@ class DateField extends StatelessWidget {
     required this.date,
     required this.onChanged,
     this.enabled = true,
+    this.label = 'DATE',
   });
   final DateTime date;
   final ValueChanged<DateTime> onChanged;
   final bool enabled;
+  final String label;
 
   Future<void> _pick(BuildContext context) async {
     final value = await showDatePicker(
@@ -28,7 +30,7 @@ class DateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LabeledField(
-    'DATE',
+    label,
     child: Semantics(
       button: true,
       label: 'Choose date, ${formatDate(date)}',

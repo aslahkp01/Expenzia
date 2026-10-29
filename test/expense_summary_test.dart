@@ -1,5 +1,5 @@
-import 'package:expenzia/models/expense_summary.dart';
 import 'package:expenzia/models/expense.dart';
+import 'package:expenzia/models/expense_summary.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -20,4 +20,29 @@ void main() {
     expect(summary.weeklyPaise, 2900);
     expect(summary.dailyAveragePaise, 200);
   });
+
+  test(
+    'summary calculates income and net balance separately from expenses',
+    () {
+      final summary = ExpenseSummary([
+        Expense(
+          title: 'Salary',
+          amountPaise: 50000,
+          category: 'Salary',
+          date: DateTime(2026, 10, 29),
+          type: 'income',
+        ),
+        Expense(
+          title: 'Groceries',
+          amountPaise: 10000,
+          category: 'Food',
+          date: DateTime(2026, 10, 29),
+          type: 'expense',
+        ),
+      ]);
+      expect(summary.totalIncomePaise, 50000);
+      expect(summary.totalExpensePaise, 10000);
+      expect(summary.netBalancePaise, 40000);
+    },
+  );
 }

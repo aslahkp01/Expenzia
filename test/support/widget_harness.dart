@@ -69,6 +69,12 @@ class WidgetHarness {
     await tester.pumpAndSettle();
   }
 
+  Future<void> settleDatabase(WidgetTester tester) async {
+    await tester.pump();
+    await tester.runAsync(fixture.database.all);
+    await tester.pumpAndSettle();
+  }
+
   Future<void> saveForm(WidgetTester tester) async {
     tester.testTextInput.hide();
     await tester.pump();

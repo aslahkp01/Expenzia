@@ -22,6 +22,7 @@ class CreditTile extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final overdue = !credit.isPaid && credit.dueDate.isBefore(today);
+    final dueToday = !credit.isPaid && credit.dueDate == today;
     final due = credit.dueDate == today ? 'Today' : formatDate(credit.dueDate);
     final status = credit.isPaid
         ? 'Paid'
@@ -57,7 +58,9 @@ class CreditTile extends StatelessWidget {
                   status,
                   style: TextStyle(
                     fontSize: 12,
-                    color: overdue ? AppColors.expense : AppColors.muted,
+                    color: overdue || dueToday
+                        ? AppColors.expense
+                        : AppColors.muted,
                   ),
                 ),
               ),

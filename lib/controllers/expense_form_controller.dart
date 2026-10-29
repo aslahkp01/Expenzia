@@ -12,7 +12,8 @@ class ExpenseFormController extends ChangeNotifier {
       ),
       description = TextEditingController(text: expense?.description ?? ''),
       category = expense?.category,
-      date = expense?.date ?? DateTime.now();
+      date = expense?.date ?? DateTime.now(),
+      type = expense?.type ?? 'expense';
 
   final int? id;
   final TextEditingController title;
@@ -20,6 +21,16 @@ class ExpenseFormController extends ChangeNotifier {
   final TextEditingController description;
   String? category;
   DateTime date;
+  String type;
+
+  bool get isIncome => type == 'income';
+
+  void setType(String value) {
+    if (type == value) return;
+    type = value;
+    category = null;
+    notifyListeners();
+  }
 
   void setCategory(String? value) {
     category = value;
@@ -38,6 +49,7 @@ class ExpenseFormController extends ChangeNotifier {
     category: category!,
     date: date,
     description: description.text.trim(),
+    type: type,
   );
 
   @override

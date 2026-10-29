@@ -43,7 +43,7 @@ class _AppShellState extends State<AppShell> {
           onEdit: _openForm,
         ),
         HistoryScreen(controller: widget.controller, onEdit: _openForm),
-        const CreditScreen(),
+        CreditScreen(expenses: widget.controller),
         ProfileScreen(controller: widget.controller, profile: widget.profile),
       ];
       const titles = ['', 'Transaction History', 'Credit', 'Profile'];

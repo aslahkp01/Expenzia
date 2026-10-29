@@ -6,6 +6,7 @@ class Expense {
     required this.category,
     required this.date,
     this.description = '',
+    this.type = 'expense',
   });
 
   final int? id;
@@ -14,6 +15,9 @@ class Expense {
   final String category;
   final DateTime date;
   final String description;
+  final String type;
+
+  bool get isIncome => type == 'income';
 
   Map<String, Object?> toMap() {
     final day = DateTime(date.year, date.month, date.day);
@@ -24,6 +28,7 @@ class Expense {
       'category': category.trim(),
       'date': day.toIso8601String(),
       'description': description.trim(),
+      'type': type,
     };
   }
 
@@ -34,5 +39,6 @@ class Expense {
     category: row['category'] as String,
     date: DateTime.parse(row['date'] as String),
     description: row['description'] as String,
+    type: (row['type'] as String?) ?? 'expense',
   );
 }

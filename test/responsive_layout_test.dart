@@ -8,10 +8,14 @@ import 'support/widget_harness.dart';
 void main() {
   for (final size in [const Size(320, 640), const Size(393, 852)]) {
     testWidgets('screens and keyboard fit ${size.width} wide', (tester) async {
-      await WidgetHarness.mount(tester, size: size, seeded: true);
+      final harness = await WidgetHarness.mount(
+        tester,
+        size: size,
+        seeded: true,
+      );
       for (final tab in ['History', 'Credit', 'Profile', 'Home']) {
         await tester.tap(find.byTooltip(tab));
-        await tester.pumpAndSettle();
+        await harness.settleDatabase(tester);
         expect(tester.takeException(), isNull, reason: tab);
       }
       await tester.tap(find.byTooltip('Add expense'));

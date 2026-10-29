@@ -1,16 +1,23 @@
 import 'package:expenzia/screens/onboarding_screen.dart';
+import 'package:expenzia/data/credit_database.dart';
 import 'package:expenzia/screens/splash_screen.dart';
 import 'package:expenzia/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/capture_preview.dart';
+import 'support/credit_examples.dart';
 import 'support/widget_harness.dart';
 
 void main() {
   testWidgets('capture all eight screen previews', (tester) async {
     await loadPreviewFonts(tester);
-    await WidgetHarness.mount(tester, seeded: true);
+    final harness = await WidgetHarness.mount(tester, seeded: true);
+    await tester.runAsync(
+      () => CreditDatabase(
+        harness.fixture.database,
+      ).save(exampleCredit(dueDate: DateTime.now())),
+    );
     await capturePreview(tester, '03-home');
     for (final item in {
       'History': '05-history',
@@ -18,6 +25,7 @@ void main() {
       'Profile': '08-profile',
     }.entries) {
       await tester.tap(find.byTooltip(item.key));
+      await harness.settleDatabase(tester);
       await capturePreview(tester, item.value);
     }
     await tester.tap(find.byTooltip('Add expense'));

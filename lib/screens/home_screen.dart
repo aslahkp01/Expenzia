@@ -51,6 +51,8 @@ class HomeScreen extends StatelessWidget {
             BalanceCard(
               totalPaise: summary.totalPaise,
               count: controller.expenses.length,
+              totalIncomePaise: summary.totalIncomePaise,
+              netBalancePaise: summary.netBalancePaise,
             ),
             const SizedBox(height: 34),
             Row(

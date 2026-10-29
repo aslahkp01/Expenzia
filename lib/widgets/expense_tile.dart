@@ -49,12 +49,12 @@ class ExpenseTile extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            '- ${formatMoney(expense.amountPaise)}',
+            '${expense.isIncome ? '+ ' : '- '}${formatMoney(expense.amountPaise)}',
             textAlign: TextAlign.right,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
-              color: AppColors.expense,
+              color: expense.isIncome ? AppColors.income : AppColors.expense,
             ),
           ),
           if (actions)
