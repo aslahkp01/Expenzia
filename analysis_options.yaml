@@ -1,0 +1,13 @@
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - web/**
+    - .tooling/**
+    - .tool-home/**
+    - ios/**
+
+linter:
+  rules:
+    - avoid_print
+    - use_build_context_synchronously

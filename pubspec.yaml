@@ -1,0 +1,23 @@
+name: expenzia
+description: Expenzia expense tracker UI recreated from the supplied design references.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path: ^1.9.1
+  sqflite: ^2.4.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  sqflite_common_ffi: ^2.4.5
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/onboarding.png
