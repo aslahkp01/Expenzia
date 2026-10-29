@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,12 +25,13 @@ class PhotoPickerSheet extends StatelessWidget {
       final picker = ImagePicker();
       final file = await picker.pickImage(
         source: source,
-        maxWidth: 600,
-        maxHeight: 600,
-        imageQuality: 85,
+        maxWidth: 400,
+        maxHeight: 400,
+        imageQuality: 80,
       );
       if (file != null) {
-        await profile.savePhoto(file.path);
+        final bytes = await file.readAsBytes();
+        await profile.savePhoto(base64Encode(bytes));
       }
     } catch (_) {
       // Handled silently or by controller error state
