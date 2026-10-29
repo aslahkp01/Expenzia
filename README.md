@@ -16,8 +16,22 @@ flutter devices
 flutter run -d <android-device-id>
 ```
 
-On macOS, select an iOS simulator/device ID instead. This implementation targets
-Android and iOS. The generated web wrapper is not a supported SQLite target.
+On macOS, select an iOS simulator/device ID instead.
+
+For Chrome, use the browser SQLite adapter and the included worker/WASM files:
+
+```sh
+flutter run -d chrome --web-port 8090
+```
+
+Browser records are stored locally through SQLite WebAssembly and IndexedDB.
+Keep the same hostname and port when restarting to reuse the same browser data.
+Clearing browser site data removes those records. Browser and mobile databases
+are separate. If upgrading the browser SQLite dependency, regenerate its files:
+
+```sh
+dart run sqflite_common_ffi_web:setup --force
+```
 
 ## Features
 
@@ -37,6 +51,7 @@ Android and iOS. The generated web wrapper is not a supported SQLite target.
 
 - `sqflite`: Android/iOS SQLite integration.
 - `path`: portable database paths.
+- `sqflite_common_ffi_web`: browser SQLite backed by IndexedDB.
 - Flutter's `ChangeNotifier` and `ListenableBuilder`: state and UI updates.
 - Development only: `flutter_test` and `sqflite_common_ffi` for real SQLite tests
   on the development computer. FFI is not used by the production mobile app.
@@ -74,7 +89,7 @@ back the mutation. User-provided query values use bound parameters.
 - Credit is an explicitly labelled, disabled preview. The reference omits an amount
   input and does not define repayments, recurrence, or effects on expense totals.
   No Credit records or financial behaviour are fabricated.
-- Profile name editing persists; profile photo upload is not implemented.
+- Profile name and profile photo editing persist locally in SQLite.
 - The onboarding illustration is a temporary crop of the illustration region in
   the supplied reference. It is not a whole-screen screenshot used as UI. Replace
   `assets/images/onboarding.png` with the original high-resolution Figma export for

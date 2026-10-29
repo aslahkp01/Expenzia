@@ -66,5 +66,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Expenzia needs camera access to take a profile photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Expenzia needs photo library access to choose a profile photo.</string>
 </dict>
 </plist>

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'controllers/expense_controller.dart';
 import 'controllers/profile_controller.dart';
 import 'data/expense_database.dart';
+import 'data/platform_database.dart';
 import 'data/profile_database.dart';
 import 'screens/intro_flow.dart';
 import 'theme/app_theme.dart';
@@ -24,7 +25,7 @@ class _ExpenziaAppState extends State<ExpenziaApp> {
   @override
   void initState() {
     super.initState();
-    _database = widget.database ?? ExpenseDatabase();
+    _database = widget.database ?? createAppDatabase();
     _expenses = ExpenseController(_database)..load();
     _profile = ProfileController(ProfileDatabase(_database))..load();
   }

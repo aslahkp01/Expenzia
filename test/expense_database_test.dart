@@ -14,6 +14,7 @@ void main() {
     final saved = await fixture.database.save(exampleExpense());
     final id = saved.single.id;
     await ProfileDatabase(fixture.database).saveName('Aslah');
+    await ProfileDatabase(fixture.database).savePhotoPath('/path/to/photo.png');
     await fixture.database.close();
     final reopened = ExpenseDatabase(
       factory: databaseFactoryFfi,
@@ -27,6 +28,10 @@ void main() {
       expect(entry.description, 'With friends');
       expect(entry.date, DateTime(2026, 10, 29));
       expect(await ProfileDatabase(reopened).loadName(), 'Aslah');
+      expect(
+        await ProfileDatabase(reopened).loadPhotoPath(),
+        '/path/to/photo.png',
+      );
     } finally {
       await reopened.close();
     }

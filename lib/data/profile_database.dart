@@ -24,4 +24,30 @@ class ProfileDatabase {
       'value': name.trim(),
     }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
+
+  Future<String?> loadPhotoPath() async {
+    final db = await database.connection;
+    final rows = await db.query(
+      'settings',
+      where: 'key = ?',
+      whereArgs: ['profile_photo_path'],
+    );
+    return rows.isEmpty ? null : rows.first['value'] as String?;
+  }
+
+  Future<void> savePhotoPath(String? path) async {
+    final db = await database.connection;
+    if (path == null || path.isEmpty) {
+      await db.delete(
+        'settings',
+        where: 'key = ?',
+        whereArgs: ['profile_photo_path'],
+      );
+      return;
+    }
+    await db.insert('settings', {
+      'key': 'profile_photo_path',
+      'value': path,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
 }

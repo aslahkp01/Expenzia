@@ -6,6 +6,7 @@ class ProfileController extends ChangeNotifier {
   ProfileController(this.database);
   final ProfileDatabase database;
   String name = 'Expenzia User';
+  String? photoPath;
   String? error;
   bool saving = false;
   bool _disposed = false;
@@ -17,6 +18,7 @@ class ProfileController extends ChangeNotifier {
   Future<void> load() async {
     try {
       name = await database.loadName();
+      photoPath = await database.loadPhotoPath();
       error = null;
     } catch (_) {
       error = 'Could not load your profile.';
@@ -35,6 +37,24 @@ class ProfileController extends ChangeNotifier {
       return true;
     } catch (_) {
       error = 'Could not save your name. Please try again.';
+      return false;
+    } finally {
+      saving = false;
+      _notify();
+    }
+  }
+
+  Future<bool> savePhoto(String? path) async {
+    if (saving) return false;
+    saving = true;
+    error = null;
+    _notify();
+    try {
+      await database.savePhotoPath(path);
+      photoPath = path;
+      return true;
+    } catch (_) {
+      error = 'Could not save your photo. Please try again.';
       return false;
     } finally {
       saving = false;
