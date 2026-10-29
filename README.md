@@ -6,7 +6,8 @@ The application starts with an empty database; it does not seed fictional record
 
 ## Run
 
-Requirements: Flutter with Dart 3.11 or newer, and an Android SDK/device or emulator.
+Requirements: Flutter 3.44 or newer with Dart 3.12 or newer, and an Android
+SDK/device or emulator. Development verification used Flutter 3.47.2 / Dart 3.13.2.
 The iOS wrapper is included; building iOS requires macOS and Xcode.
 
 ```sh
