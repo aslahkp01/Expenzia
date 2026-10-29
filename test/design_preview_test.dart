@@ -43,6 +43,14 @@ void main() {
           ),
         ),
       );
+      if (item.key == '02-onboarding') {
+        await tester.runAsync(
+          () => precacheImage(
+            const AssetImage('assets/images/onboarding.png'),
+            tester.element(find.byType(OnboardingScreen)),
+          ),
+        );
+      }
       await capturePreview(tester, item.key);
     }
     expect(tester.takeException(), isNull);
