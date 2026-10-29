@@ -48,15 +48,13 @@ class ExpenseTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              '- ${formatMoney(expense.amountPaise)}',
-              textAlign: TextAlign.right,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w600,
-                color: AppColors.expense,
-              ),
+          Text(
+            '- ${formatMoney(expense.amountPaise)}',
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+              color: AppColors.expense,
             ),
           ),
           if (actions)
