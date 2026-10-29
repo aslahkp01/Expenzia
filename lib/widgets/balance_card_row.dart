@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
 
-class BalanceCardRow extends StatelessWidget {
-  const BalanceCardRow({
+class BalanceItem extends StatelessWidget {
+  const BalanceItem({
     super.key,
     required this.label,
-    required this.count,
+    required this.amount,
     required this.icon,
   });
   final String label;
-  final int count;
+  final String amount;
   final IconData icon;
 
   @override
   Widget build(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisSize: MainAxisSize.min,
     children: [
-      Row(
+      CircleAvatar(
+        radius: 13,
+        backgroundColor: const Color(0xFF529995),
+        child: Icon(icon, color: Colors.white, size: 16),
+      ),
+      const SizedBox(width: 8),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          CircleAvatar(
-            radius: 12,
-            backgroundColor: const Color(0xFF529995),
-            child: Icon(icon, color: Colors.white, size: 16),
-          ),
-          const SizedBox(width: 7),
           Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(color: Color(0xFFD9EEEE), fontSize: 13),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            amount,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
-      ),
-      Text(
-        '$count ${count == 1 ? 'record' : 'records'}',
-        style: const TextStyle(color: Colors.white),
       ),
     ],
   );
