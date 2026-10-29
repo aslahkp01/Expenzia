@@ -4,7 +4,7 @@ import '../utils/amount_parser.dart';
 import 'credit_schema.dart';
 
 class ExpenseSchema {
-  static const version = 3;
+  static const version = 2;
   static const table = 'expenses';
 
   static Future<void> create(Database db, int version) async {
@@ -36,8 +36,8 @@ class ExpenseSchema {
     int oldVersion,
     int newVersion,
   ) async {
-    if (oldVersion < 2) await CreditSchema.create(db);
-    if (oldVersion < 3) {
+    if (oldVersion < 2) {
+      await CreditSchema.create(db);
       await db.execute(
         "ALTER TABLE $table ADD COLUMN type TEXT NOT NULL DEFAULT 'expense'",
       );

@@ -28,7 +28,7 @@ class Expense {
       'category': category.trim(),
       'date': day.toIso8601String(),
       'description': description.trim(),
-      'type': type,
+      if (type != 'expense') 'type': type,
     };
   }
 
